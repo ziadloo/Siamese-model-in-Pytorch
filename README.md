@@ -33,4 +33,4 @@ class MnistGenerator(SiameseSampleGenerator):
             return self.samples[curr]
 ```
 
-A complete exmaple can be found in the "example" folder.
+#### A complete example can be found in the "example" folder.
