@@ -13,4 +13,3 @@ def triplet_loss(v1, v2, margin=1.0):
     triplet_loss2 = torch.clamp(margin + mean_negative - positive, min=0.0)
     triplet_loss = torch.mean(triplet_loss1 + triplet_loss2)
     return triplet_loss
-
