@@ -7,4 +7,4 @@ def info_nce_loss(v1, v2):
     # Labels is a vector holding the diagonal indices
     labels = torch.arange(scores.size(0)).to(scores.device)
 
-    return torch.nn.functional.cross_entropy(outputs, labels)
+    return torch.nn.functional.cross_entropy(scores, labels)
