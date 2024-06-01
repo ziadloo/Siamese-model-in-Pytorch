@@ -38,16 +38,18 @@ class SiameseDataset(Dataset):
 
     def __getitem__(self, index):
         return (
-            torch.stack(
+            torch.cat(
                 list(
-                    g[self.generator_indices[i][index]][0]
+                    g[self.generator_indices[i][index]][0].unsqueeze(dim=-4)
                     for i, g in enumerate(self.generators)
-                )
+                ),
+                dim=-4,
             ),
-            torch.stack(
+            torch.cat(
                 list(
-                    g[self.shifted_generator_indices[i][index]][0]
+                    g[self.shifted_generator_indices[i][index]][0].unsqueeze(dim=-4)
                     for i, g in enumerate(self.generators)
-                )
+                ),
+                dim=-4,
             ),
         )
