@@ -8,6 +8,6 @@ class SiameseDataLoader(DataLoader):
     def __init__(self, dataset: SiameseDataset, batch_size: int, class_count: int, *args, **kwargs):
         super().__init__(dataset,
                          collate_fn=SiameseCollator,
-                         batch_sampler=SiameseBatchSampler(dataset, batch_size, class_count, int(len(dataset) / batch_size)),
+                         batch_sampler=SiameseBatchSampler(dataset, batch_size, class_count, len(dataset)),
                          *args, **kwargs)
 
