@@ -21,13 +21,19 @@ class SiameseDataset(Dataset):
         self.generator_indices = [
             torch.randperm(self.size).tolist() for _ in range(len(generators))
         ]
+        self.shifted_generator_indices = [
+            gi[1:] + gi[:1] for gi in self.generator_indices
+        ]
 
     def __len__(self):
         return self.size
 
     def shuffle(self):
         self.generator_indices = [
-            torch.randperm(self.size).tolist() for _ in range(len(generators))
+            torch.randperm(self.size).tolist() for _ in range(len(self.generators))
+        ]
+        self.shifted_generator_indices = [
+            gi[1:] + gi[:1] for gi in self.generator_indices
         ]
 
     def __getitem__(self, index):
@@ -40,7 +46,7 @@ class SiameseDataset(Dataset):
             ),
             torch.stack(
                 list(
-                    g[self.generator_indices[i][(index + 1) % self.size]][0]
+                    g[self.shifted_generator_indices[i][index]][0]
                     for i, g in enumerate(self.generators)
                 )
             ),
