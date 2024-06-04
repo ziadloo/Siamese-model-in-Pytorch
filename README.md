@@ -11,26 +11,37 @@ pip install git+https://github.com/ziadloo/Siamese-model-in-Pytorch.git
 To use:
 
 ```python
-from Siamese import SiameseDataLoader, SiameseSampleGenerator, SiameseDataset, SiameseModel, triplet_loss
+from Siamese import SiameseDataLoader, SiameseDataset, SiameseModel, triplet_loss
 
 
-class MnistGenerator(SiameseSampleGenerator):
-    def __init__(self, ds, transform=None):
-        self.samples = ds
-        random.shuffle(self.samples)
-        self.counter = 0
-        self.transform = transform
+batch_size = 10
+class_count = 10
 
-    def shuffle(self):
-        random.shuffle(self.samples)
+transform = transforms.Compose([
+    transforms.Resize((32, 32)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.912], std=[0.168]),
+])
 
-    def __call__(self):
-        curr = self.counter
-        self.counter = (self.counter + 1) % len(self.samples)
-        if self.transform is not None:
-            return self.transform(self.samples[curr])
-        else:
-            return self.samples[curr]
+training_mnist = datasets.MNIST(
+    root="data",
+    train=True,
+    download=True,
+    transform=transform,
+)
+
+train_samples = [[] for i in range(10)]
+for X, y in training_mnist:
+    train_samples[y].append(X)
+
+training_generators = [
+    torch.utils.data.TensorDataset(torch.stack(train_samples[i]))
+    for i in range(class_count)
+]
+training_data = SiameseDataset(training_generators)
+train_dataloader = SiameseDataLoader(
+    training_data, batch_size=batch_size, class_count=class_count, shuffle=True
+)
 ```
 
 #### A complete example can be found in the "example" folder.
