@@ -8,7 +8,6 @@ class SiameseDataLoader(DataLoader):
         self,
         dataset: SiameseDataset,
         batch_size: int,
-        class_count: int,
         shuffle: bool = False,
         *args,
         **kwargs
