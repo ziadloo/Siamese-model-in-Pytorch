@@ -30,7 +30,7 @@ training_mnist = datasets.MNIST(
     transform=transform,
 )
 
-train_samples = [[] for i in range(10)]
+train_samples = [[] for i in range(class_count)]
 for X, y in training_mnist:
     train_samples[y].append(X)
 
@@ -40,7 +40,7 @@ training_generators = [
 ]
 training_data = SiameseDataset(training_generators)
 train_dataloader = SiameseDataLoader(
-    training_data, batch_size=batch_size, class_count=class_count, shuffle=True
+    training_data, batch_size=batch_size, shuffle=True
 )
 ```
 
