@@ -40,14 +40,14 @@ class SiameseDataset(Dataset):
         return (
             torch.cat(
                 list(
-                    g[self.generator_indices[i][index]][0].unsqueeze(dim=-4)
+                    g[self.generator_indices[i][index]].unsqueeze(dim=-4)
                     for i, g in enumerate(self.generators)
                 ),
                 dim=-4,
             ),
             torch.cat(
                 list(
-                    g[self.shifted_generator_indices[i][index]][0].unsqueeze(dim=-4)
+                    g[self.shifted_generator_indices[i][index]].unsqueeze(dim=-4)
                     for i, g in enumerate(self.generators)
                 ),
                 dim=-4,
